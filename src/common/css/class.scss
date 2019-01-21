@@ -1,0 +1,71 @@
+@import "mixin";
+
+
+.z-center{
+  position: absolute;
+  top: 50%;
+  transform:translate(0,-50%)!important;
+}
+.h-center{
+  position: absolute;
+  left: 50%;
+  transform:translate(-50%,0)!important;
+}
+.zh-center{
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform:translate(-50%,-50%)!important;
+}
+.no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.iconfont{
+  font-size: 100%;
+}
+
+
+#__vconsole .vc-switch{  //v-console 字体调整
+  @include font(1);
+}
+
+
+
+/*vux 选择器 css更改 start*/
+.picker{
+  .weui-cell{
+    display: flex;
+    width: 100%;
+  }
+  .vux-popup-picker-value{
+    color:#c7c7c7;
+    @include px2rem(margin-right,57);
+  }
+}
+
+.vux-popup-header{
+  height: 1rem!important;
+  align-items: center;
+}
+.vux-popup-header-left,.vux-popup-header-right{
+  @include font(2)
+}
+.scroller-component{
+  height:4.18rem!important;
+}
+.scroller-mask{  //灰色阴影部分
+  background-size:100% 1.81rem!important;
+}
+
+.scroller-item{
+  @include font(3);
+  height: 0.844rem!important;
+  line-height: 0.844rem!important;
+}
+.scroller-indicator{
+  background-image:none!important;
+  height: 0.844rem!important;
+}
+/*vux 选择器 css更改 end*/
