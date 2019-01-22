@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <top></top>
-    <router-view v-transition class="view"></router-view>
+    <router-view v-transition class="view" ></router-view>
     <bottomNav></bottomNav>
   </div>
 
@@ -28,6 +28,6 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "~common/css/global";
   .view{
-    height: 85vh;
+    height: px2rem(700)
   }
 </style>

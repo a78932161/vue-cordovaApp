@@ -24,7 +24,7 @@
     width: 100%;
   }
   .iconfont{
-       font-size:25px;
+       font-size:px2rem(25)
   }
 
 </style>

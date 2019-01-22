@@ -26,9 +26,10 @@ fastclick.attach(document.body);
 
 let vConsole = new VConsole({maxLogNumber: 5000});  //console.log调试工具，发布时需注释
 
-new Vue({
-  el: '#app',
-  router,
-  provide,
-  render: h => h(App)
-});
+  new Vue({
+    el: '#app',
+    router,
+    provide,
+    render: h => h(App)
+  });
+

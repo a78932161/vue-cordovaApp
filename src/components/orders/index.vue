@@ -43,11 +43,12 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~common/css/global";
   .list {
-    margin-bottom: 63px;
+    margin-bottom: px2rem(36);
   }
 
   .iconfont {
-    font-size: 20px;
+    font-size: px2rem(20);
   }
 </style>

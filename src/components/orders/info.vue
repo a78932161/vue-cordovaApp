@@ -1,6 +1,6 @@
 <template>
   <div class="info" v-cloak>
-    <mu-form :model="form" class="mu-demo-form" label-width="100">
+    <mu-form :model="form" class="mu-demo-form" label-width="200">
       <mu-form-item prop="input" label="客户名">
         <mu-text-field v-model="form.name" placeholder="请输入客户名"></mu-text-field>
       </mu-form-item>

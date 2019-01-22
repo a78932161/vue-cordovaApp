@@ -17,11 +17,12 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~common/css/global";
   .iconfont{
-    font-size:24px;
+    font-size:px2rem(24);
   }
   .top{
     width: 100%;
-    height: 50px;
+    height: px2rem(50)
   }
 </style>
