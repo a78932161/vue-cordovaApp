@@ -19,7 +19,7 @@
 <style lang="scss" scoped>
   @import "~common/css/global";
   .iconfont{
-    font-size:px2rem(24);
+    font-size:px2rem(25);
   }
   .top{
     width: 100%;
