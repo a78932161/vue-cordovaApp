@@ -22,12 +22,25 @@ exports.cssLoaders = function (options) {
     }
   }
 
+  // const postcssLoader = {
+  //   loader: 'postcss-loader',
+  //   options: {
+  //     sourceMap: options.sourceMap
+  //   }
+  // }
   const postcssLoader = {
     loader: 'postcss-loader',
     options: {
-      sourceMap: options.sourceMap
+      sourceMap: options.sourceMap,
+      plugins: [
+        require('postcss-pxtorem')({
+          'rootValue': 32,
+          propList: ['*']
+        })
+      ]
     }
   }
+
 
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {

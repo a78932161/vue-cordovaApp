@@ -1,0 +1,16 @@
+query getConsult($id: String!) {
+  Consult(id: $id) {
+    number
+    phone
+    id
+    name
+    remark
+  }
+}
+
+
+mutation consult_modify($consult: Consult_!) {
+  consult_modify(consult: $consult) {
+    id
+  }
+}

@@ -30,11 +30,17 @@ module.exports = {
       'api': resolve('src/api'),
       'base': resolve('src/base'),
       'common': resolve('src/common'),
-      'mock': resolve('src/mock')
+      'mock': resolve('src/mock'),
+      'graph':resolve('src/graph')
     }
   },
   module: {
     rules: [
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader'
+      },
       {
         test: /\.vue$/,
         loader: 'vue-loader',

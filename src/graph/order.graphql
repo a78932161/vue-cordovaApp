@@ -1,0 +1,20 @@
+query getConsultList {
+  ConsultList {
+    totalPages
+    totalElements
+    content {
+      id
+      updatetime
+      disabled
+      remark
+      number
+      createtime
+      phone
+      updateactorid
+      storeId
+      name
+      salesConsultantId
+      createactorid
+    }
+  }
+}
