@@ -1,10 +1,19 @@
 query getConsult($id: String!) {
   Consult(id: $id) {
-    number
-    phone
     id
+    carModel
+    number
+    status
+    maritalStatus
+    salesConsultantId
     name
-    remark
+    img
+    job
+    storeId
+    id
+    income
+    phone
+    intention
   }
 }
 

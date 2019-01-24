@@ -19,6 +19,7 @@
 <style lang="scss" rel="stylesheet/scss">
   @import "~common/css/base";
   @import "~common/wu-ui/wu-ui";
+
   .router-view {
     height: 100vh;
   }

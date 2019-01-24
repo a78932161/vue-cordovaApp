@@ -1,20 +1,26 @@
-query getConsultList {
+query getConsultList{
   ConsultList {
     totalPages
     totalElements
     content {
-      id
       updatetime
-      disabled
-      remark
+      carModel
       number
-      createtime
-      phone
-      updateactorid
-      storeId
-      name
-      salesConsultantId
       createactorid
+      disabled
+      updateactorid
+      createtime
+      status
+      maritalStatus
+      salesConsultantId
+      name
+      img
+      job
+      storeId
+      id
+      income
+      phone
+      intention
     }
   }
 }

@@ -1,6 +1,7 @@
 @import "variable";
 
 
+* { touch-action: pan-y; }
 
 body, html {
   width: 100%;

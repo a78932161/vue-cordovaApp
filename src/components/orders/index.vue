@@ -1,10 +1,14 @@
 <template>
   <div class="list">
     <mu-list class="lists">
-      <mu-list-item avatar="" button :ripple="false" v-for="(item,index) in  list" :key="index" @click="details(item)">
-        <mu-list-item-title>手机号:{{item.phone}}</mu-list-item-title>
+      <mu-list-item avatar="" button :ripple="false" v-for="(item,index) in  list" :key="index">
+        <mu-list-item-title @click="details(item)">手机号:{{item.phone}}</mu-list-item-title>
         <mu-list-item-action>
-          <span class="iconfont icon-weibiaoti-"></span>
+          <mu-button icon>
+            <a :href="'tel:'+item.phone" style="color:#2196f3;">
+              <span class="iconfont icon-weibiaoti-"></span>
+            </a>
+          </mu-button>
         </mu-list-item-action>
       </mu-list-item>
     </mu-list>
@@ -44,6 +48,7 @@
 
 <style lang="scss" scoped>
   @import "~common/css/global";
+
   .list {
     margin-bottom: px2rem(36);
   }
