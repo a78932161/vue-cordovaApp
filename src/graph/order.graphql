@@ -1,22 +1,52 @@
-query getConsultList{
-  ConsultList {
-    totalPages
-    totalElements
+query getConsultList($storeId:String!){
+  ConsultList(qfilter:{
+    combinator:AND
+    key:"store.id"
+    operator:LIKE
+    value:$storeId
+  }) {
     content {
-      updatetime
       carModel
       number
-      createactorid
-      disabled
-      updateactorid
       createtime
       status
       maritalStatus
-      salesConsultantId
       name
       img
       job
-      storeId
+      id
+      income
+      phone
+      intention
+      store{
+        id
+      }
+    }
+  }
+}
+
+query getConsultList1($salesConsultantId:String!){
+  ConsultList(qfilter:{
+    combinator:AND
+    key:"salesConsultantAdmin.id"
+    operator:LIKE
+    value:$salesConsultantId
+  }) {
+    content {
+      carModel
+      number
+      createtime
+      status
+      maritalStatus
+      salesConsultantAdmin{
+        id
+      }
+      store{
+        id
+      }
+      name
+      img
+      job
       id
       income
       phone

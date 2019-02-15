@@ -5,7 +5,7 @@
 
 
 
-let TokenKey='x-auth-Token';
+let TokenKey='x-auth-token';
 export function getToken(){
    return sessionStorage.getItem(TokenKey);
 }

@@ -1,88 +1,77 @@
 import axios from 'axios'
 import qs from 'qs';
-import {baseURL} from 'api/config';
-import {getLimited,setLimited,getLimitedUrl,setLimitedUrl,setToken,getToken} from 'common/js/auth';
+import {getToken, setToken, removeToken} from '@/common/js/auth'
+import {baseURL, tokenName} from '@/api/config';
+import wu from '@/common/wu-ui/wu-ui';
 
 
-
-let config={
-  loginUrl:'',  //登陆地址
-  loginApi:`${baseURL}/wechatmini/login`,    //登陆API
-
-
-  logoutApi:`${baseURL}/logout`,  //退出API
-  indexUrl:'' //首页
+let URL = window.location.origin;
+let URL1 = '';
+if (window.location.pathname == '/') {
+  URL1 = '/';
+} else {
+  URL1 = window.location.pathname;
+}
+let config = {
+  loginUrl: `${URL}${URL1}#/login`, /*登陆地址*/
+  loginApi: `${baseURL}/login`, /*登陆API*/
+  logoutApi: `${baseURL}/logout`, /*退出API*/
+  indexUrl: `${URL}${URL1}/#/home` /*首页*/
 };
+
 const service = axios.create({
   baseURL,
   timeout: 15000,               //请求超时时间
-  withCredentials: true
+  // withCredentials: true
 });
 
 
-
-
-service.interceptors.request.use(config => {  // request拦截器
-   if (config.headers['Content-Type'] === "multipart/form-data") {
-     config.data = qs.stringify(config.data);
-   }
+service.interceptors.request.use(config => {
+  if (config.headers['Content-Type'] === "application/x-www-form-urlencoded") {
+    config.data = qs.stringify(config.data);
+  }
   if (getToken()) {
-   config.headers['x-auth-token'] = getToken(); // 让每个请求携带自定义token 请根据实际情况自行修改
-   }
-
+    config.headers[tokenName] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+  }
   return config
 }, error => {
+  // Do something with request error
+  console.log(error) // for debug
   Promise.reject(error)
-});
+})
 
+// respone拦截器
 
-service.interceptors.response.use(  // respone拦截器
-  response => {
-    let request = response.request;
-
-    if (request.responseURL === config.loginApi && request.status === 200 ) {  //登陆成功
-
-      // setToken(response.headers['x-auth-token']);
-
-     /* if(getLimited()==='true'){
-        setLimited('false');
-        location.href=getLimitedUrl();
-      }
-      else{
-        location.href=config.indexUrl;
-      }*/
-    }
-    else if (request.responseURL === config.logoutApi && request.status === 200 ) {   //注销
-      location.href=config.loginUrl;
+service.interceptors.response.use(response => {
+    let token = response.headers[tokenName];
+    if (token) {
+      setToken(token);
     }
     return response.data;
   },
   error => {
-
-
-    if (!error.response) {
-     //alert('网络异常');
-      // 断网了
-      return ;
-    }
-    switch (error.response.status){
-      case 401:
-      /* if (location.href === config.loginUrl) {    //登陆页面401错误，提示用户名或者密码错误
-       }
-       else {    //访问受限资源，跳转至登陆页面
-       setLimited('true');
-       setLimitedUrl(location.href);
-       }*/
-      break;
-      case 403:     //403权限不足，提示用户
-        this.$vux.alert.show({
-          title:'提示',
-          content: '权限不足'
+    console.log('err' + error) // for debug
+    let errcode = String(error);
+    if (errcode.indexOf('401') > 0) {
+      if (location.href === config.loginUrl) {    /*登陆页面401错误，提示用户名或者密码错误*/
+        wu.showToast({
+          title: '账号密码错误!',
+          mask: false,
+          duration: 2000
         });
-      //自行修改
-      break;
+      }
+      else {
+        wu.showToast({
+          title: ' 超时!',
+          mask: false,
+          duration: 2000
+        });
+        removeToken();
+        location.href = config.loginUrl;
+        //setLimited('true');
+        // setLimitedUrl(location.href);
+      }
     }
-
 
 
     return Promise.reject(error)

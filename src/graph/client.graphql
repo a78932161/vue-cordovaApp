@@ -1,0 +1,32 @@
+query getCustomerList($storeId:String!) {
+  CustomerList(qfilter:{
+    combinator:AND
+    key:"store.id"
+    operator:LIKE
+    value:$storeId
+  }) {
+    content {
+      name
+      id
+      updateactorid
+      disabled
+      invitedId
+      store{
+        id
+      }
+      phone
+      integral
+      gender
+      nickname
+      updatetime
+      salesConsultantAdmin{
+        id,
+        name
+      }
+      number
+      openid
+      createtime
+      createactorid
+    }
+  }
+}

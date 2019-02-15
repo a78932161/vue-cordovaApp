@@ -5,11 +5,17 @@ query getConsult($id: String!) {
     number
     status
     maritalStatus
-    salesConsultantId
+    salesConsultantAdmin{
+      id
+      name
+    }
+    createtime
     name
     img
     job
-    storeId
+    store{
+      id
+    }
     id
     income
     phone
@@ -18,8 +24,52 @@ query getConsult($id: String!) {
 }
 
 
+
 mutation consult_modify($consult: Consult_!) {
   consult_modify(consult: $consult) {
+    id
+  }
+}
+
+mutation consult_allocate($salesId: String!, $id: String!) {
+  consult_allocate(salesId: $salesId, id: $id) {
+    id
+  }
+}
+
+
+
+query getSalesperson($storeId: String!,$salesperson:String!) {
+  AdminList (qfilter:{
+    key: "store.id",
+    value: $storeId,
+    operator: EQUEAL,
+    combinator: AND,
+    next: {
+      key: "roleItems.role.name",
+      value: $salesperson,
+      operator: EQUEAL
+    }
+  }){
+    content {
+      id
+      roleItems {
+        role {
+          id
+          name
+        }
+        id
+      }
+      store{
+        id
+      }
+      name
+    }
+  }
+}
+
+mutation consult_finish($id: String!) {
+  consult_finish(id: $id) {
     id
   }
 }

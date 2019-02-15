@@ -5,14 +5,17 @@
 </template>
 
 <script>
-  import Tab from 'components/tab/tab';
-
   export default {
     name: 'App',
-    components: {
-      Tab
-    }
-
+    components: {},
+    watch: {
+      $route() {
+        setTimeout(
+          () => {
+            this.$wu.hideToast();
+            }, 10000)
+      }
+    },
   }
 </script>
 

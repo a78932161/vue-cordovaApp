@@ -9,31 +9,30 @@ import VueApollo from 'vue-apollo'
 import {ApolloLink, concat, split} from 'apollo-link';
 
 
-import {getToken} from 'common/js/auth'
-import {tokenName} from 'api/config';
+import {getToken} from '@/common/js/auth'
+import {tokenName} from '@/api/config';
 import capture from './capture';
 
 const httpLink = new HttpLink({
   // uri: 'http://115.159.154.194:8080/graphql',
-     uri:'http://115.159.154.194/carmall/graphql'
+  uri: 'http://115.159.154.194/carmall/graphql'
 });
 
 
-// const authMiddleware = new ApolloLink((operation, forward) => {
-//    operation.setContext({
-//      headers: {
-//        [tokenName]: getToken() || null,
-//      }
-//    });
-//    return forward(operation);
-//  });
-
+const authMiddleware = new ApolloLink((operation, forward) => {
+  operation.setContext({
+    headers: {
+      [tokenName]: getToken() || null,
+    }
+  });
+  return forward(operation);
+});
 
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
-  // link:concat(authMiddleware,httpLink),
-  link: httpLink,
+  link: concat(authMiddleware, httpLink),
+  // link: httpLink,
   cache: new InMemoryCache(),
   connectToDevTools: true,
 });
@@ -43,8 +42,8 @@ Vue.use(VueApollo);
 
 
 const apolloProvider = new VueApollo({
-  errorHandler (error) {
-    // capture(error);
+  errorHandler(error) {
+    capture(error);
   },
   defaultClient: apolloClient,
   defaultOptions: {
@@ -62,15 +61,15 @@ const apolloProvider = new VueApollo({
        * - standby: only for queries that aren't actively watched, but should be available for refetch and updateQueries.
 
 
-      export type FetchPolicy =
-    | 'cache-first'
-    | 'cache-and-network'
-    | 'network-only'
-    | 'cache-only'
-    | 'no-cache'
-    | 'standby';
+       export type FetchPolicy =
+       | 'cache-first'
+       | 'cache-and-network'
+       | 'network-only'
+       | 'cache-only'
+       | 'no-cache'
+       | 'standby';
        */
-fetchPolicy: 'no-cache',
+      fetchPolicy: 'no-cache',
     },
   },
 });
