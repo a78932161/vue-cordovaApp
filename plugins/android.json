@@ -12,7 +12,25 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.cordova.order"
+    },
+    "cordova-plugin-media": {
+      "PACKAGE_NAME": "com.cordova.order"
+    },
+    "jpush-phonegap-plugin": {
+      "APP_KEY": "3196152f8e7226ad72259ee3",
+      "CHANNEL": "developer-default",
+      "PACKAGE_NAME": "com.cordova.order"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.cordova.order"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.cordova.order"
+    },
+    "cordova-plugin-jcore": {
+      "PACKAGE_NAME": "com.cordova.order"
+    }
+  }
 }

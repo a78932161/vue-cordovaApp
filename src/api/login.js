@@ -2,7 +2,7 @@ import request from '@/common/js/fetch';
 
 export function login(username, password) {
   return request({
-    url: '/login',
+    url: '/login/app',
     method: 'post',
     params: {
       username,
@@ -10,6 +10,7 @@ export function login(username, password) {
     }
   })
 }
+
 export function logout() {
   return request({
     url: '/logout',

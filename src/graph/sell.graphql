@@ -1,0 +1,106 @@
+query getAdminList($storeId:String!,$namelike:String){
+  AdminList(qfilter:{
+    combinator:AND
+    key:"store.id"
+    operator:LIKE
+    value:$storeId,
+     next: {
+      key: "roleItems.role.name",
+      value: "销售顾问",
+      operator: EQUEAL
+      combinator:AND
+      next:{
+          operator:LIKE
+          key:"username"
+          value:$namelike
+        }
+    }
+  }){
+    content {
+      phone
+      store {
+        id
+        name
+      }
+      createtime
+      number
+      updatetime
+      username
+      id
+      createactorid
+      updateactorid
+      roleItems {
+        id
+        role {
+          id
+          name
+        }
+      }
+      name
+      disabled
+    }
+  }
+}
+
+
+mutation admin_salesConsultant($admin: Admin_!) {
+  admin_salesConsultant(admin: $admin) {
+      id
+  }
+}
+
+
+mutation admin_changeOtherPassword($password: String!, $username: String!) {
+  admin_changeOtherPassword(password: $password, username: $username) {
+		id
+  }
+}
+
+
+query getAdmin($id: String!) {
+  Admin(id: $id) {
+    phone
+    store {
+      id
+    }
+    createtime
+    number
+    updatetime
+    username
+    id
+    createactorid
+    updateactorid
+    roleItems {
+      id
+      role {
+        id
+      }
+    }
+    name
+    disabled
+  }
+}
+
+mutation admin_delete($id: String!) {
+  admin_delete(id: $id) {
+    phone
+    store {
+      id
+    }
+    createtime
+    number
+    updatetime
+    username
+    id
+    createactorid
+    updateactorid
+    roleItems {
+      id
+      role {
+        id
+      }
+    }
+    name
+    disabled
+  }
+}

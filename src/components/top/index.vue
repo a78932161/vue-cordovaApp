@@ -4,6 +4,9 @@
       <mu-button icon slot="left" @click="open = !open">
         <span class="iconfont icon-caidan"></span>
       </mu-button>
+      <mu-button flat slot="right" v-if="plus" @click="addUser">
+        <span class="iconfont icon-jiahao"></span>
+      </mu-button>
       <mu-button flat slot="right" @click="search">
         <span class="iconfont icon-sousuo"></span>
       </mu-button>
@@ -11,13 +14,19 @@
     <mu-fade-transition>
       <div class="mu-transition-box" v-show="show1">
         <div class="search">
-          <input type="number" v-model="searchValue" @blur="changeValue(searchValue)" placeholder="请输入搜索的内容"/>
+          <input v-model="searchValue" @blur="changeValue(searchValue)" placeholder="请输入搜索的内容"/>
         </div>
       </div>
     </mu-fade-transition>
 
     <mu-drawer :open.sync="open" :docked="docked" :right="position === 'right'" width="200">
       <mu-list>
+        <mu-list-item button @click="$router.push('/qrcode')" v-if="this.name==='销售顾问'">
+          <mu-list-item-title>分享二维码</mu-list-item-title>
+        </mu-list-item>
+        <mu-list-item button @click="$router.push('/password')">
+          <mu-list-item-title>修改密码</mu-list-item-title>
+        </mu-list-item>
         <mu-list-item @click="openLeft" button>
           <mu-list-item-title>退出</mu-list-item-title>
         </mu-list-item>
@@ -29,7 +38,7 @@
 
 <script>
   import {removeToken} from '@/common/js/auth'
-  import {mapMutations} from 'vuex'
+  import {mapMutations, mapGetters} from 'vuex'
 
   export default {
     name: "index",
@@ -40,8 +49,12 @@
         position: 'left',
         show1: false,
         searchValue: '',
+        plus: false,
       }
     },
+    computed: mapGetters([
+      'name',
+    ]),
     methods: {
       ...mapMutations([
         'SET_searchValue',
@@ -49,6 +62,7 @@
       openLeft() {
         this.open = false;
         removeToken();
+
         this.$router.push('/login');
         this.$wu.showToast({
           title: '退出成功!',
@@ -61,8 +75,20 @@
       },
       changeValue(data) {
         this.SET_searchValue(data);
+      },
+      addUser() {
+        this.$router.push({path: 'sales/info', query: {type: 'add'}});
       }
-    }
+    },
+    watch: {
+      $route(to, from) {
+        if (to.path === '/sales') {
+          this.plus = true;
+        } else {
+          this.plus = false;
+        }
+      }
+    },
   }
 </script>
 

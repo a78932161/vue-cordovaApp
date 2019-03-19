@@ -5,33 +5,43 @@
 
 
 
-let TokenKey='x-auth-token';
-export function getToken(){
-   return sessionStorage.getItem(TokenKey);
+let TokenKey = 'x-auth-token';
+
+export function getToken() {
+  return sessionStorage.getItem(TokenKey);
 }
-export function setToken(token){
-  sessionStorage.setItem(TokenKey,token);
+
+export function setToken(token) {
+  sessionStorage.setItem(TokenKey, token);
 }
-export function removeToken(){
+
+export function removeToken() {
   sessionStorage.removeItem(TokenKey);
+  // window.JPush.cleanTags({sequence: 1},
+  //   (result) => {
+  //   }, (error) => {
+  //   })
 }
 
+let limited = 'x-auth-limited';
 
-let limited='x-auth-limited';
-export function getLimited(){
+export function getLimited() {
   return sessionStorage.getItem(limited);
 }
-export function setLimited(data){
-  sessionStorage.setItem(limited,data);
+
+export function setLimited(data) {
+  sessionStorage.setItem(limited, data);
 }
 
 
-let limitedUrl='x-auth-limitedUrl';
-export function getLimitedUrl(){
+let limitedUrl = 'x-auth-limitedUrl';
+
+export function getLimitedUrl() {
   return sessionStorage.getItem(limitedUrl);
 }
-export function setLimitedUrl(data){
-  sessionStorage.setItem(limitedUrl,data);
+
+export function setLimitedUrl(data) {
+  sessionStorage.setItem(limitedUrl, data);
 }
 
 

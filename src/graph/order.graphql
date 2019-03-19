@@ -1,9 +1,21 @@
-query getConsultList($storeId:String!){
+query getConsultList($storeId:String!,$namelike:String,$status:String){
   ConsultList(qfilter:{
     combinator:AND
     key:"store.id"
     operator:LIKE
     value:$storeId
+    next:{
+    	combinator:AND
+      operator:LIKE
+      key:"phone"
+      value:$namelike
+      next:{
+      combinator:AND
+      operator:EQUEAL
+      key:"status"
+      value:$status
+      }
+    }
   }) {
     content {
       carModel
@@ -11,6 +23,8 @@ query getConsultList($storeId:String!){
       createtime
       status
       maritalStatus
+      paymentRatio
+      buyTime
       name
       img
       job
@@ -24,27 +38,23 @@ query getConsultList($storeId:String!){
     }
   }
 }
-
-query getConsultList1($salesConsultantId:String!){
-  ConsultList(qfilter:{
-    combinator:AND
-    key:"salesConsultantAdmin.id"
-    operator:LIKE
-    value:$salesConsultantId
-  }) {
+query getConsultList1($salesConsultantId: String!, $namelike: String, $status: String) {
+  ConsultList(qfilter: {combinator: AND, key: "salesConsultantAdmin.id", operator: LIKE, value: $salesConsultantId, next: {combinator: AND, operator: LIKE, key: "phone", value: $namelike, next: {combinator: AND, operator: EQUEAL, key: "status", value: $status}}}) {
     content {
       carModel
       number
       createtime
       status
       maritalStatus
-      salesConsultantAdmin{
+      salesConsultantAdmin {
         id
       }
-      store{
+      store {
         id
       }
       name
+      paymentRatio
+      buyTime
       img
       job
       id
@@ -52,5 +62,13 @@ query getConsultList1($salesConsultantId:String!){
       phone
       intention
     }
+  }
+}
+
+
+
+mutation admin_changePassword($oldPassword: String!, $newPassword: String!) {
+  admin_changePassword(oldPassword: $oldPassword, newPassword: $newPassword) {
+	id
   }
 }

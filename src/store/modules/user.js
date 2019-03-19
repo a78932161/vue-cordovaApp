@@ -9,6 +9,7 @@ const user = {
     roles: [],
     id: '',
     searchValue: '',
+    active: 0,
   },
 
   mutations: {
@@ -29,8 +30,10 @@ const user = {
     },
     SET_searchValue: (state, searchValue) => {
       state.searchValue = searchValue
-    }
-
+    },
+    SET_active: (state, active) => {
+      state.active = active
+    },
   },
 
   actions: {

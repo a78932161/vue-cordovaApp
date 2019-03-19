@@ -17,17 +17,21 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <platform name="android">
-        <icon density="ldpi" src="resources\android\icon\drawable-ldpi-icon.png" />
-        <icon density="ldpi" src="resources\android\icon\drawable-ldpi.png" />
-        <icon density="mdpi" src="resources\android\icon\drawable-mdpi.png" />
-        <icon density="hdpi" src="resources\android\icon\drawable-hdpi.png" />
-        <icon density="xhdpi" src="resources\android\icon\drawable-xhdpi.png" />
+        <icon density="ldpi" src="resources\android\icon\ldpi.ico" />
+        <icon density="mdpi" src="resources\android\icon\mdpi.ico" />
+        <icon density="hdpi" src="resources\android\icon\hdpi.ico" />
+        <icon density="xhdpi" src="resources\android\icon\xdpi.ico" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
     <plugin name="cordova-plugin-camera" spec="^2.4.1" />
+    <plugin name="cordova-plugin-media" spec="^5.0.2" />
+    <plugin name="jpush-phonegap-plugin" spec="^3.6.3">
+        <variable name="APP_KEY" value="3196152f8e7226ad72259ee3" />
+        <variable name="CHANNEL" value="developer-default" />
+    </plugin>
     <engine name="ios" spec="~4.3.1" />
     <engine name="browser" spec="~4.1.0" />
     <engine name="android" spec="^7.1.4" />

@@ -8,6 +8,7 @@ const getters = {
   name: state => state.user.name,
   roles: state => state.user.roles,
   searchValue: state => state.user.searchValue,
+  active: state => state.user.active,
 };
 
 export default getters;

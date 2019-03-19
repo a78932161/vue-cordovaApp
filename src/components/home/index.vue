@@ -10,6 +10,7 @@
 <script>
   import bottomNav from 'components/bottom-navigation/index'
   import top from 'components/top/index'
+
   export default {
     data() {
       return {}
@@ -18,6 +19,7 @@
       bottomNav,
       top
     },
+
   }
 
 
@@ -27,8 +29,9 @@
   @import "~common/css/global";
 
   .view {
-    height: 86%;
+    height: 84%;
     overflow: auto;
     -webkit-overflow-scrolling: touch
   }
+
 </style>

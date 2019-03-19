@@ -8,7 +8,8 @@ export function uploadImg(img) {
       let data = result,
         credentials = data.assumeRoleResponse.credentials;
       const client = new OSS({
-        endpoint: data.endpoint,
+        // endpoint: result.data.endpoint,
+        endpoint: 'https://oss-cn-hangzhou.aliyuncs.com/',
         bucket: data.bucketName,
         accessKeyId: credentials.accessKeyId,
         accessKeySecret: credentials.accessKeySecret,
@@ -30,9 +31,10 @@ export function uploadDome(img) {
   let promise = new Promise((resolve, reject) => {
     axios(`${baseURL}/sts`).then((result) => {
       let data = result,
-      credentials = data.assumeRoleResponse.credentials;
+        credentials = data.assumeRoleResponse.credentials;
       const client = new OSS({
-        endpoint: data.endpoint,
+        // endpoint: result.data.endpoint,
+        endpoint: 'https://oss-cn-hangzhou.aliyuncs.com/',
         bucket: data.bucketName,
         accessKeyId: credentials.accessKeyId,
         accessKeySecret: credentials.accessKeySecret,

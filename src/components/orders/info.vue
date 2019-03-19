@@ -1,10 +1,19 @@
 <template>
   <div class="info" v-cloak>
     <mu-form :model="form" class="mu-demo-form" label-width="200">
-      <div v-if="name==='销售顾问'">
+      <div>
         <mu-form-item label="咨询时间">
           <mu-date-input disabled v-model="form.createtime" type="dateTime" full-width landscape></mu-date-input>
         </mu-form-item>
+        <mu-form-item label="所属销售" v-if="name==='门店管理员'">
+          <mu-select v-if="form.status!== 2" :disabled="!name==='门店管理员'" v-model="form.salesConsultantId" full-width>
+            <mu-option v-for="(city,index) in citys" :key="index" :label="city.name" :value="city.id"></mu-option>
+          </mu-select>
+          <mu-select v-if="form.status=== 2" :disabled="true" v-model="form.salesConsultantId" full-width>
+            <mu-option v-for="(city,index) in citys" :key="index" :label="city.name" :value="city.id"></mu-option>
+          </mu-select>
+        </mu-form-item>
+
         <mu-form-item prop="input" label="客户名">
           <mu-text-field :disabled="end" v-model="form.name" placeholder="请输入客户名"></mu-text-field>
         </mu-form-item>
@@ -17,6 +26,14 @@
         <mu-form-item prop="input" label="车型">
           <mu-text-field :disabled="end" v-model="form.carModel" placeholder="请输入车型"></mu-text-field>
         </mu-form-item>
+
+        <mu-form-item prop="input" label="首付比例">
+          <mu-text-field :disabled="end" v-model="form.paymentRatio" placeholder="请输入车型"></mu-text-field>
+        </mu-form-item>
+        <mu-form-item prop="input" label="购车时间">
+          <mu-text-field :disabled="end" v-model="form.buyTime" placeholder="请输入车型"></mu-text-field>
+        </mu-form-item>
+
         <mu-form-item prop="input" label="工作">
           <mu-text-field :disabled="end" v-model="form.job" placeholder="请输入工作"></mu-text-field>
         </mu-form-item>
@@ -37,19 +54,10 @@
           </div>
         </mu-form-item>
       </div>
-      <div v-if="name==='门店管理员'">
-        <mu-form-item label="咨询时间">
-          <mu-date-input disabled v-model="form.createtime" type="dateTime" full-width landscape></mu-date-input>
-        </mu-form-item>
-        <mu-form-item label="所属销售">
-          <mu-select :disabled="end" v-model="form.salesConsultantId" full-width>
-            <mu-option v-for="(city,index) in citys" :key="index" :label="city.name" :value="city.id"></mu-option>
-          </mu-select>
-        </mu-form-item>
-      </div>
 
       <mu-form-item class="push">
         <mu-button color="primary" @click="submit()" v-if="!end">提交</mu-button>
+        <mu-button color="primary" @click="submit()" v-if="name==='门店管理员'&&form.status!== 2">提交</mu-button>
         <mu-button @click="back()">返回</mu-button>
       </mu-form-item>
     </mu-form>
@@ -96,7 +104,7 @@
         citys: [],
         open: false,
         imges: '',
-        imgUrl: 'https://biya-image.oss-cn-hangzhou.aliyuncs.com/',
+        imgUrl: 'https://image.buymycar.cn/',
         end: false,
       }
     },
@@ -106,6 +114,7 @@
     methods: {
       getInfo() {
         if (this.name === '门店管理员') {
+          this.end = true;
           this.$wu.showLoading('loading...');
           this.$apollo.query({
             query: api.getConsult,
@@ -113,20 +122,25 @@
             fetchPolicy: 'network-only',
           }).then(res => {
             this.form = JSON.parse(JSON.stringify(res.data.Consult));
-            if (res.data.Consult.status === 1) {
-              this.end = true;
+            if (res.data.Consult.status === 2) {
               this.imges = this.form.img;
+              this.end = true;
+              if (this.form.salesConsultantAdmin['id']) {
+                this.form.salesConsultantId = this.form.salesConsultantAdmin['id'];
+              }
             }
             this.$wu.hideToast();
             this.$apollo.query({
               query: api.getSalesperson,
               variables: {storeId: this.storeId, salesperson: '销售顾问'},
+              fetchPolicy: 'network-only',
             }).then((res1) => {
-              this.citys = JSON.parse(JSON.stringify(res1.data.AdminList.content))
+              this.citys = JSON.parse(JSON.stringify(res1.data.AdminList.content));
+              this.end = true;
             });
           }).catch(err => {
             this.$wu.hideToast();
-          });
+          })
         } else {
           this.$wu.showLoading('loading...');
           this.$apollo.query({
@@ -135,14 +149,14 @@
             fetchPolicy: 'network-only',
           }).then(res => {
             this.form = JSON.parse(JSON.stringify(res.data.Consult));
-            if (res.data.Consult.status === 1) {
-              this.end = true;
+            if (res.data.Consult.status === 2) {
               this.imges = this.form.img;
+              this.end = true;
             }
             this.$wu.hideToast();
           }).catch(err => {
             this.$wu.hideToast();
-          });
+          })
         }
       },
       back() {
@@ -150,41 +164,65 @@
       },
       submit() {
         if (this.name === '门店管理员') {
+          let apiQl = '';
+          let apiId = '';
+          switch (this.form.status) {
+            case 0:
+              apiQl = api.consult_allocate;
+              apiId = {salesId: this.form.salesConsultantId, id: this.$route.query.id};
+              break;
+            case 1:
+              apiQl = api.consult_changeToSalesConsultant;
+              apiId = {salesId: this.form.salesConsultantId, id: this.$route.query.id};
+              break;
+          }
           this.$apollo.mutate({
-            mutation: api.consult_allocate,
-            variables: {salesId: this.form.salesConsultantId, id: this.$route.query.id}
+            mutation: apiQl,
+            variables: apiId,
           }).then(res => {
             if (res.dataPresent) {
               this.$wu.showToast({
-                title: '转单成功 !',
+                title: '操作成功 !',
                 mask: false,
                 duration: 2000
               });
             }
+          }).catch(err => {
+
           })
+
         } else {
+
+          delete this.form['createtime'];
           this.$apollo.mutate({
             mutation: api.consult_modify,
             variables: {consult: this.form}
           }).then(res => {
             if (res.dataPresent) {
-              if (this.imges) {
-                this.$apollo.mutate({
-                  mutation: api.consult_finish,
-                  variables: {id: this.$route.query.id}
-                }).then((res1) => {
-                  this.end = true;
-                })
-              }
+              this.end = true;
               this.$wu.showToast({
                 title: '保存成功 !',
                 mask: false,
                 duration: 2000
               });
+              if (this.imges) {
+                this.$apollo.mutate({
+                  mutation: api.consult_finish,
+                  variables: {id: this.$route.query.id}
+                }).then((res1) => {
+                  if (res1.dataPresent) {
+                    this.end = true;
+                    this.$wu.showToast({
+                      title: '保存成功 !',
+                      mask: false,
+                      duration: 2000
+                    });
+                  }
+                })
+              }
             }
           })
         }
-
       },
       closeBottomSheet() {
         this.open = false;
@@ -203,6 +241,11 @@
               this.imges = `${this.imgUrl}${res.name}`;
               this.form['img'] = this.imges;
               this.$wu.hideToast();
+              this.$wu.showToast({
+                title: '上传完成后,保存信息将会完结,如果不完结请点击返回!',
+                mask: false,
+                duration: 5000
+              });
             }
           }).catch(err => {
             this.$wu.showToast({
@@ -210,7 +253,6 @@
               mask: false,
               duration: 2000
             });
-            console.log(err);
           })
         }).catch((err) => {
           if (err === 20) {  //无相机权限
@@ -240,6 +282,11 @@
               this.imges = `${this.imgUrl}${res.name}`;
               this.form['img'] = this.imges;
               this.$wu.hideToast();
+              this.$wu.showToast({
+                title: '上传完成后,保存信息将会完结,如果不完结请点击返回!',
+                mask: false,
+                duration: 5000
+              });
             }
           }).catch(err => {
             console.log(err);

@@ -1,9 +1,15 @@
-query getCustomerList($storeId:String!) {
+query getCustomerList($storeId:String!,$namelike:String) {
   CustomerList(qfilter:{
     combinator:AND
     key:"store.id"
     operator:LIKE
     value:$storeId
+      next:{
+      combinator:AND
+      operator:LIKE
+      key:"phone"
+      value:$namelike
+    }
   }) {
     content {
       name

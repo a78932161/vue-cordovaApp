@@ -100,10 +100,6 @@
 }
 
 
-$baseFontSize: 375 / 10;
-@mixin px2rem($name,$px){
-    #{$name}:$px/$baseFontSize * 1rem;
-}
 
 
 @mixin bg-image($url){
@@ -119,6 +115,12 @@ $baseFontSize: 375 / 10;
   justify-content: center;
   align-items: center;
 }
+
+$baseFontSize: 375 / 10;
+@mixin px2rem($name,$px){
+  #{$name}:$px/$baseFontSize * 1rem;
+}
+
 
 @function px2rem($px) {
   @return $px / $baseFontSize + rem;

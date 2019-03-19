@@ -7,13 +7,16 @@ import store from '../store'
 
 function capture(error){
 
-  let statusCode=error.networkError.statusCode;
+  let statusCode = error.gqlError.status;
   switch (statusCode){
     case 401:
-      store.commit('SET_TOKEN', '');
-      store.commit('SET_ROLES', []);
       removeToken();
-      location.reload();
+      this.$router.push('/login');
+      this.$wu.showToast({
+        title: '超时!',
+        mask: false,
+        duration: 2000
+      });
       break;
   }
 }

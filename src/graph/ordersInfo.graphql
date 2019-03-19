@@ -10,6 +10,8 @@ query getConsult($id: String!) {
       name
     }
     createtime
+    paymentRatio
+    buyTime
     name
     img
     job
@@ -36,6 +38,21 @@ mutation consult_allocate($salesId: String!, $id: String!) {
     id
   }
 }
+
+mutation consult_changeToStore($id: String!, $storeId: String!) {
+  consult_changeToStore(id: $id, storeId: $storeId) {
+    id
+  }
+}
+
+mutation consult_changeToSalesConsultant($salesId: String!, $id: String!) {
+  consult_changeToSalesConsultant(salesId: $salesId, id: $id) {
+      id
+  }
+}
+
+
+
 
 
 

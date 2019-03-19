@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+    <div class="logo">
+      <img src="../../common/img/logo.png"/>
+    </div>
     <mu-form ref="form" :model="validateForm" class="mu-demo-form">
       <mu-form-item label="用户名" prop="username" :rules="usernameRules">
         <mu-text-field v-model="validateForm.username" prop="username"></mu-text-field>
@@ -11,6 +14,7 @@
         <mu-button round class="dl" color="primary" @click="submit">登录</mu-button>
       </mu-form-item>
     </mu-form>
+    <div class="footer">贝壳麦卡所有权</div>
   </div>
 </template>
 
@@ -29,7 +33,7 @@
           // {validate: (val) => val.length >= 3 && val.length <= 10, message: '密码长度大于3小于10'}
         ],
         validateForm: {
-          username: 'zhangsan',
+          username: 'mdadmin',
           password: '1',
         }
       }
@@ -40,16 +44,14 @@
           if (result) {
             this.$wu.showLoading('登录中...');
             this.$store.dispatch('Login', this.validateForm).then((res) => {
-              console.log(res);
+              // window.JPush.setTags({sequence: 1, tags: [res.id]},
+              //   (result) => {
+              //     console.log(result);
+              //   }, (error) => {
+              //     console.log(error);
+              //   });
               this.$wu.hideToast();
               this.$router.push('/home');
-            }).catch((err) => {
-              this.$wu.hideToast();
-              this.$wu.showToast({
-                title: err,
-                mask: false,
-                duration: 2000
-              });
             })
           }
         });
@@ -64,10 +66,25 @@
 
   .login {
     font-size: px2rem(20);
-    width: 100%;
-    @include center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .logo {
+      img {
+        width: px2rem(310);
+        height: px2rem(180);
+        background-size: 100%;
+      }
+    }
+    .footer {
+      margin-top: px2rem(50);
+      font-size: px2rem(14);
+      color: #6e6e6e;
+
+    }
     .mu-demo-form {
-      margin: px2rem(10);
+      padding: px2rem(10);
       .button {
         @include center;
         .dl {

@@ -1,0 +1,39 @@
+query getCarInfoList {
+  CarInfoList(qfilter:{
+    key:"disabled",
+    operator:EQUEAL
+    value:"false"
+    combinator:AND,
+    next:{
+      combinator:AND
+      key:"upperShelf"
+      operator:EQUEAL
+      value:"true"
+      }
+  }) {
+    totalPages
+    totalElements
+    content {
+      id
+      upperShelf
+      updateactorid
+      disabled
+      img
+      financialSchemes {
+        monthly
+        id
+        downPayment
+        periods
+      }
+      sort
+      brand
+      number
+      model
+      price
+      createactorid
+      filename
+      updatetime(OrderBy:DESC)
+      createtime(OrderBy:DESC)
+    }
+  }
+}
