@@ -4,6 +4,9 @@
       <mu-button icon slot="left" @click="open = !open">
         <span class="iconfont icon-caidan"></span>
       </mu-button>
+      <div slot="default" class="md">
+        <span>{{md}}</span>
+      </div>
       <mu-button flat slot="right" v-if="plus" @click="addUser">
         <span class="iconfont icon-jiahao"></span>
       </mu-button>
@@ -19,7 +22,7 @@
       </div>
     </mu-fade-transition>
 
-    <mu-drawer :open.sync="open" :docked="docked" :right="position === 'right'" width="200">
+    <mu-drawer :open.sync="open" :docked="docked" :right="position === 'right'" class="drawer">
       <mu-list>
         <mu-list-item button @click="$router.push('/qrcode')" v-if="this.name==='销售顾问'">
           <mu-list-item-title>分享二维码</mu-list-item-title>
@@ -50,6 +53,7 @@
         show1: false,
         searchValue: '',
         plus: false,
+        md: JSON.parse(localStorage.getItem('user')).store.name,
       }
     },
     computed: mapGetters([
@@ -101,7 +105,12 @@
 
   .top {
     width: 100%;
-    height: px2rem(50)
+    height: px2rem(50);
+    .md {
+      @include center;
+      font-size: px2rem(20);
+      letter-spacing: px2rem(3);
+    }
   }
 
   .mu-transition-box {
@@ -121,7 +130,9 @@
         height: px2rem(32);
         font-size: px2rem(18);
       }
-
     }
+  }
+  .drawer {
+    width: px2rem(200);
   }
 </style>
