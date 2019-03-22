@@ -20,6 +20,12 @@
       "APP_KEY": "3196152f8e7226ad72259ee3",
       "CHANNEL": "developer-default",
       "PACKAGE_NAME": "com.cordova.order"
+    },
+    "org.devgeeks.Canvas2ImagePlugin": {
+      "PACKAGE_NAME": "com.cordova.order"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "com.cordova.order"
     }
   },
   "dependent_plugins": {

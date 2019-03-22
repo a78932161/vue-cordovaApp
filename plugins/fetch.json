@@ -65,5 +65,21 @@
       "APP_KEY": "3196152f8e7226ad72259ee3",
       "CHANNEL": "developer-default"
     }
+  },
+  "org.devgeeks.Canvas2ImagePlugin": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/devgeeks/Canvas2ImagePlugin.git"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-android-permissions": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-android-permissions"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
